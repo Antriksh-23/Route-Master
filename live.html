@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Tracking & Updates - Route Master</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Live Tracking & Updates</h1>
+    <p>Track client locations and get real-time alerts.</p>
+    <a href="index.html" class="link-button">← Back to Home</a>
+  </header>
+
+  <main>
+    <section>
+      <h2>Live Location Tracker</h2>
+      <p>This demo simulates live tracking with mock data.</p>
+
+      <div id="trackingStatus" style="margin: 1rem 0; font-weight: bold;"></div>
+      <div id="locationUpdates" style="background: rgba(0,0,0,0.1); padding: 1rem; border-radius: 8px; max-height: 200px; overflow-y: auto;"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Route Master. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const trackingStatus = document.getElementById('trackingStatus');
+    const locationUpdates = document.getElementById('locationUpdates');
+
+    let count = 0;
+
+    function simulateTracking() {
+      count++;
+      const now = new Date().toLocaleTimeString();
+      trackingStatus.textContent = 'Tracking is active. Last update: ' + now;
+
+      // Simulate location data
+      const lat = (40 + Math.random()).toFixed(5);
+      const lng = (-74 + Math.random()).toFixed(5);
+      const update = document.createElement('p');
+      update.textContent = `${now}: Client is at Latitude: ${lat}, Longitude: ${lng}`;
+      locationUpdates.prepend(update);
+
+      // Keep only last 10 updates
+      if (locationUpdates.childNodes.length > 10) {
+        locationUpdates.removeChild(locationUpdates.lastChild);
+      }
+    }
+
+    // Start simulating updates every 3 seconds
+    setInterval(simulateTracking, 3000);
+  </script>
+</body>
+</html>

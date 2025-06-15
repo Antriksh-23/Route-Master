@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agency Dashboard - Route Master</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Dashboard-specific styles */
+    .dashboard-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background-color: var(--section-bg);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .dashboard-header h1 {
+      margin: 0;
+      color: var(--header-title-color);
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--button-bg);
+      color: var(--text-color);
+    }
+
+    button.action-btn {
+      padding: 0.4rem 0.8rem;
+      background-color: var(--button-bg);
+      border: none;
+      border-radius: 5px;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button.action-btn:hover {
+      background-color: var(--button-hover-bg);
+    }
+
+    /* Scrollable container for reports */
+    .scrollable-table {
+      max-height: 250px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Agency Dashboard</h1>
+    <a href="index.html" class="link-button">← Back to Home</a>
+  </header>
+
+  <main class="dashboard-container">
+    <!-- Manage Trips Section -->
+    <section class="section" id="tripManagement">
+      <h2>Manage Trips</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Trip ID</th>
+            <th>Client Name</th>
+            <th>Destinations</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tripsTableBody">
+          <tr>
+            <td>001</td>
+            <td>John Doe</td>
+            <td>New York, Boston</td>
+            <td>Confirmed</td>
+            <td><button class="action-btn" onclick="updateStatus('001', 'Cancelled')">Cancel</button></td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>Jane Smith</td>
+            <td>Los Angeles, San Francisco</td>
+            <td>Pending</td>
+            <td><button class="action-btn" onclick="updateStatus('002', 'Confirmed')">Confirm</button></td>
+          </tr>
+          <tr>
+            <td>003</td>
+            <td>Bob Lee</td>
+            <td>Chicago, Detroit</td>
+            <td>Confirmed</td>
+            <td><button class="action-btn" onclick="updateStatus('003', 'Cancelled')">Cancel</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Reports Section -->
+    <section class="section" id="reports">
+      <h2>Reports</h2>
+      <div class="scrollable-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Report ID</th>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Summary</th>
+            </tr>
+          </thead>
+          <tbody id="reportsTableBody">
+            <tr>
+              <td>R001</td>
+              <td>Monthly Travel Summary</td>
+              <td>2025-05-01</td>
+              <td>Summary of all trips booked and completed in April.</td>
+            </tr>
+            <tr>
+              <td>R002</td>
+              <td>Client Satisfaction</td>
+              <td>2025-05-10</td>
+              <td>Feedback analysis from client reviews for April.</td>
+            </tr>
+            <tr>
+              <td>R003</td>
+              <td>Carbon Footprint Report</td>
+              <td>2025-05-15</td>
+              <td>Estimated emissions for all trips last month.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Travel Plans Monitoring Section -->
+    <section class="section" id="monitoring">
+      <h2>Travel Plans Monitoring</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Trip ID</th>
+            <th>Client Name</th>
+            <th>Current Location</th>
+            <th>Status</th>
+            <th>Last Update</th>
+          </tr>
+        </thead>
+        <tbody id="monitoringTableBody">
+          <tr>
+            <td>001</td>
+            <td>John Doe</td>
+            <td>Boston, MA</td>
+            <td>On Route</td>
+            <td>2025-05-19 10:15 AM</td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>Jane Smith</td>
+            <td>San Francisco, CA</td>
+            <td>Pending</td>
+            <td>2025-05-18 09:00 AM</td>
+          </tr>
+          <tr>
+            <td>003</td>
+            <td>Bob Lee</td>
+            <td>Detroit, MI</td>
+            <td>On Route</td>
+            <td>2025-05-19 11:05 AM</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Route Master. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function updateStatus(tripId, newStatus) {
+      const tableBody = document.getElementById('tripsTableBody');
+      const rows = tableBody.getElementsByTagName('tr');
+
+      for (let row of rows) {
+        if (row.cells[0].textContent === tripId) {
+          row.cells[3].textContent = newStatus;
+
+          // Update the button depending on new status
+          const actionCell = row.cells[4];
+          if (newStatus === 'Confirmed') {
+            actionCell.innerHTML = `<button class="action-btn" onclick="updateStatus('${tripId}', 'Cancelled')">Cancel</button>`;
+          } else {
+            actionCell.innerHTML = `<button class="action-btn" onclick="updateStatus('${tripId}', 'Confirmed')">Confirm</button>`;
+          }
+          break;
+        }
+      }
+    }
+  </script>
+</body>
+</html>

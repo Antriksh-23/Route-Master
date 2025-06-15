@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Client Trip Planner - Route Master</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Client Trip Planner</h1>
+    <p>Customize itineraries based on your time, cost, and preferences.</p>
+    <a href="index.html" class="link-button">← Back to Home</a>
+  </header>
+
+  <main>
+    <section>
+      <h2>Plan Your Trip</h2>
+      <form id="tripPlannerForm">
+        <label for="destinations">Destinations (comma-separated):</label>
+        <input type="text" id="destinations" name="destinations" placeholder="E.g. New York, Boston, Philadelphia" required />
+        
+        <label for="budget">Budget (USD):</label>
+        <input type="number" id="budget" name="budget" min="0" placeholder="Enter your budget" />
+
+        <label for="preferences">Preferences:</label>
+        <select id="preferences" name="preferences">
+          <option value="fastest">Fastest Route</option>
+          <option value="cheapest">Cheapest Route</option>
+          <option value="scenic">Most Scenic</option>
+        </select>
+
+        <button type="submit">Generate Itinerary</button>
+      </form>
+
+      <div id="itineraryOutput" style="margin-top:1rem;"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Route Master. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('tripPlannerForm');
+    const output = document.getElementById('itineraryOutput');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const destinations = form.destinations.value.trim();
+      const budget = form.budget.value.trim();
+      const preference = form.preferences.value;
+
+      if (!destinations) {
+        output.textContent = 'Please enter at least one destination.';
+        return;
+      }
+
+      // For demo: Just display the entered info.
+      output.innerHTML = `
+        <h3>Your Trip Plan</h3>
+        <p><strong>Destinations:</strong> ${destinations}</p>
+        <p><strong>Budget:</strong> ${budget ? '$' + budget : 'No budget specified'}</p>
+        <p><strong>Preference:</strong> ${preference.charAt(0).toUpperCase() + preference.slice(1)}</p>
+        <p><em>(Trip optimization coming soon!)</em></p>
+      `;
+    });
+  </script>
+</body>
+</html>
